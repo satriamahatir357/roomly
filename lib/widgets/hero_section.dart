@@ -42,20 +42,13 @@ class HeroSection extends StatelessWidget{
             ), 
           ),
           const SizedBox(width: 30),
-          Expanded(
-            child: Container(
-              height: 400,
-              decoration: BoxDecoration( //digunakan untuk menghias Container.
-                borderRadius: BorderRadius.circular(24),
-                color: Colors.grey.shade300,
-              ),
-              child: const Center(
-                child: Text(
-                  'Hotel Image',
-                  style: TextStyle(
-                    fontSize: 24,
-                  ),
-                ),
+          Expanded( //digunakan untuk membuat widget mengisi ruang yang tersedia di dalam Row atau Column.
+            child: ClipRRect( //digunakan untuk memotong tampilan widget mengikuti bentuk sudut tertentu.
+              borderRadius: BorderRadius.circular(24),
+              child: Image.asset( //digunakan untuk menampilkan gambar yang berasal dari folder aset project Flutter.
+                'assets/images/hotel-hero.jpg',
+                height: 400,
+                fit: BoxFit.cover, //membuat gambar memenuhi area yang tersedia. Gambar memenuhi area, mungkin ada bagian yang terpotong.
               ),
             ),
           ),
