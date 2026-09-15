@@ -27,9 +27,11 @@ class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state ya
                     const SizedBox(width: 16,), //untuk memberikan ukuran atau jarak
                 ],
             ),
-            body: const Padding(
-                padding: EdgeInsets.all(24),
-                child: HeroSection(),
+            body: SingleChildScrollView(
+                child: const Padding(
+                  padding: EdgeInsets.all(24),
+                  child: HeroSection(),
+                ),
             ),
         );
     }
