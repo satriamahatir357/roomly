@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart'; //mengambil library Flutter.
+import '../widgets/hero_section.dart';
 
 // membuat widget halaman Home.
 class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state yang berubah.
@@ -26,8 +27,9 @@ class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state ya
                     const SizedBox(width: 16,), //untuk memberikan ukuran atau jarak
                 ],
             ),
-            body: const Center( //menempatkan isi di tengah.
-                child: Text('Welcome to Roomly'),
+            body: const Padding(
+                padding: EdgeInsets.all(24),
+                child: HeroSection(),
             ),
         );
     }
