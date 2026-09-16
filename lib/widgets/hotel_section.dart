@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../models/hotel.dart';
 
 class HotelSection extends StatelessWidget{
@@ -8,21 +9,21 @@ class HotelSection extends StatelessWidget{
     Hotel( 
       name: 'Roomly Grand Hotel', 
       location: 'Jakarta', 
-      imageUrl: 'https://example.com/hotel1.jpg',
+      imageUrl: 'https://images.unsplash.com/photo-1551286923-c82d6a8ae079?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDJ8fHxlbnwwfHx8fHw%3D',
       price: 850000.0, 
       rating: 4.8,
     ),
     Hotel(
       name: 'Roomly Luxury Resort', 
       location: 'Bali', 
-      imageUrl: 'https://example.com/hotel2.jpg',
+      imageUrl: 'https://images.unsplash.com/photo-1660839638327-3943e1846e3a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D',
       price: 1200000.0,
       rating: 4.9,
     ),
     Hotel(
       name: 'Roomly City Hotel',
       location: 'Bandung',
-      imageUrl: 'https://example.com/hotel3.jpg',
+      imageUrl: 'https://images.unsplash.com/photo-1789073730743-1610768a9ac6?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDI5fHx8ZW58MHx8fHx8',
       price: 650000.0,
       rating: 4.7,
     ),
@@ -51,15 +52,68 @@ class HotelSection extends StatelessWidget{
             itemCount: hotels.length, 
             itemBuilder: (context, index){ //itemBuilder = fungsi untuk membuat setiap item. index = nomor urut item, dimulai dari 0.
               final hotel = hotels[index]; //Mengambil satu data hotel berdasarkan posisi index
+              final priceFormat = NumberFormat('#,###', 'id_ID'); //Digunakan untuk mengatur format angka sesuai Indonesia.
               return Card(
-                margin: const EdgeInsets.only(bottom: 16),
-                child: ListTile(  //ListTile adalah widget siap pakai untuk membuat baris daftar.
-                  leading:const Icon(Icons.hotel),
-                  title: Text(hotel.name),
-                  subtitle: Text(
-                    '${hotel.location} • Rp${hotel.price.toStringAsFixed(0)}',
-                  ),
-                  trailing: Text('⭐ ${hotel.rating}'), //Menampilkan rating di sisi kanan card.
+                margin: const EdgeInsets.only(bottom: 20),
+                clipBehavior: Clip.antiAlias,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox( //Bagian ini mengatur ukuran gambar
+                      width: 240,
+                      height: 160,
+                      child: Image.network(
+                        hotel.imageUrl,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              hotel.name,
+                              style: const TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+
+                            const SizedBox(height: 16),
+
+                            Text(
+                              '📍 ${hotel.location}',
+                              style: const TextStyle(
+                                color: Colors.grey,
+                                fontSize: 16,
+                              ),
+                            ),
+
+                            const SizedBox(height: 8),
+
+                            Text(
+                              'Rp${priceFormat.format(hotel.price)} / malam',
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+
+                            Text(
+                              '⭐ ${hotel.rating}',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               );
             },
