@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart'; //mengambil library Flutter.
 import '../widgets/hero_section.dart';
+import '../widgets/hotel_section.dart';
 
 // membuat widget halaman Home.
 class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state yang berubah.
@@ -30,7 +31,12 @@ class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state ya
             body: SingleChildScrollView(
                 child: const Padding(
                   padding: EdgeInsets.all(24),
-                  child: HeroSection(),
+                  child: Column(
+                    children: [
+                        HeroSection(),
+                        HotelSection(),
+                    ],
+                  ),
                 ),
             ),
         );
