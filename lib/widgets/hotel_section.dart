@@ -1,7 +1,32 @@
 import 'package:flutter/material.dart';
+import '../models/hotel.dart';
 
 class HotelSection extends StatelessWidget{
   const HotelSection({super.key});
+
+  final List<Hotel> hotels = const [ //membuat list yang hanya boleh berisi object bertipe Hotel.
+    Hotel( 
+      name: 'Roomly Grand Hotel', 
+      location: 'Jakarta', 
+      imageUrl: 'https://example.com/hotel1.jpg',
+      price: 850000.0, 
+      rating: 4.8,
+    ),
+    Hotel(
+      name: 'Roomly Luxury Resort', 
+      location: 'Bali', 
+      imageUrl: 'https://example.com/hotel2.jpg',
+      price: 1200000.0,
+      rating: 4.9,
+    ),
+    Hotel(
+      name: 'Roomly City Hotel',
+      location: 'Bandung',
+      imageUrl: 'https://example.com/hotel3.jpg',
+      price: 650000.0,
+      rating: 4.7,
+    ),
+  ];
 
   @override
   Widget build(BuildContext context){
