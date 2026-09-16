@@ -48,15 +48,18 @@ class HotelSection extends StatelessWidget{
           ListView.builder( //Digunakan untuk membuat daftar secara dinamis.
             shrinkWrap: true, //Memberitahu ListView agar menyesuaikan tinggi berdasarkan isi list.
             physics: const NeverScrollableScrollPhysics(), //Menonaktifkan scroll pada ListView bagian dalam.
-            itemCount: 3, //jumlah item adalah 3.
+            itemCount: hotels.length, 
             itemBuilder: (context, index){ //itemBuilder = fungsi untuk membuat setiap item. index = nomor urut item, dimulai dari 0.
+              final hotel = hotels[index]; //Mengambil satu data hotel berdasarkan posisi index
               return Card(
                 margin: const EdgeInsets.only(bottom: 16),
                 child: ListTile(  //ListTile adalah widget siap pakai untuk membuat baris daftar.
                   leading:const Icon(Icons.hotel),
-                  title: Text('Hotel Roomly ${index+1}'),
-                  subtitle: const Text('Hotel Mewah dan Nyaman'),
-                  trailing: const Icon(Icons.arrow_forward_ios),
+                  title: Text(hotel.name),
+                  subtitle: Text(
+                    '${hotel.location} • Rp${hotel.price.toStringAsFixed(0)}',
+                  ),
+                  trailing: Text('⭐ ${hotel.rating}'), //Menampilkan rating di sisi kanan card.
                 ),
               );
             },
