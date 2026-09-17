@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/home_screen.dart';
+import 'screens/login_screen.dart';
 
 void main() {
   runApp(const RoomlyApp());
@@ -13,13 +13,7 @@ class RoomlyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Roomly',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.brown,
-        ),
-        useMaterial3: true,
-      ),
-      home: const HomeScreen(),
+      home: const LoginScreen(),
     );
   }
 }
