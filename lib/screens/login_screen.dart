@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:roomly/screens/register_screen.dart';
+import '../screens/home_screen.dart';
 
 class LoginScreen extends StatelessWidget{
   const LoginScreen({super.key});
@@ -16,7 +18,7 @@ class LoginScreen extends StatelessWidget{
               child: Column(
                 children: [
                   _buildWelcomeSection(),
-                  _buildLoginSection(),
+                  _buildLoginSection(context),
                 ],
               ),
             )
@@ -26,7 +28,7 @@ class LoginScreen extends StatelessWidget{
                     child: _buildWelcomeSection(),
                   ),
                   Expanded(
-                    child: _buildLoginSection(),
+                    child: _buildLoginSection(context),
                   ),
                 ],
             );
@@ -85,7 +87,7 @@ class LoginScreen extends StatelessWidget{
   }
 
   // === BAGIAN KANAN ===
-  Widget _buildLoginSection(){
+  Widget _buildLoginSection(BuildContext context){
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(48),
@@ -152,7 +154,14 @@ class LoginScreen extends StatelessWidget{
               width: double.infinity,
               height: 52,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HomeScreen(),
+                    ),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFC9A227),
                   foregroundColor: const Color(0xFF0F172A),
@@ -183,7 +192,13 @@ class LoginScreen extends StatelessWidget{
                   ),   
                 ),
 
-                TextButton(onPressed: () {},
+                TextButton(onPressed: () {
+                  Navigator.push(context,
+                  MaterialPageRoute(
+                    builder: (context) => const RegisterScreen(),
+                    ),
+                  );
+                },
                   child: const Text(
                     'Daftar',
                     style: TextStyle(
