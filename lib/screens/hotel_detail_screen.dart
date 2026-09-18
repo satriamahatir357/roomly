@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/hotel.dart';
@@ -144,7 +142,15 @@ class HotelDetailScreen extends StatelessWidget{
                   width: double.infinity,
                   height: 54,
                   child: ElevatedButton(
-                    onPressed: () {}, 
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar( //Mengambil pengelola pesan dari Scaffold yang sedang aktif.
+                        SnackBar( //Menampilkan pesan kecil sementara di bagian bawah layar.
+                          content: Text(
+                            'Pemesanan ${hotel.name} belum tersedia.',
+                          ),
+                        ),
+                      );
+                    }, 
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFC9A227),
                       foregroundColor: const Color(0xFF0F172A),

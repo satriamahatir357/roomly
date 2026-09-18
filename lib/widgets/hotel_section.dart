@@ -72,8 +72,8 @@ class HotelSection extends StatelessWidget{
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox( //Bagian ini mengatur ukuran gambar
-                        width: 240,
-                        height: 160,
+                        width: 180,
+                        height: 140,
                         child: Image.network(
                           hotel.imageUrl,
                           fit: BoxFit.cover,
@@ -89,7 +89,7 @@ class HotelSection extends StatelessWidget{
                               Text(
                                 hotel.name,
                                 style: const TextStyle(
-                                  fontSize: 22,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),

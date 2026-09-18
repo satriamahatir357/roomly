@@ -7,6 +7,7 @@ class HeroSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container( // Container mengatur lebar dan jarak bagian hero section.
       width: double.infinity,
+      color: const Color(0xFFF8F7F3),
       padding: const EdgeInsets.symmetric(
         horizontal: 30,
         vertical: 60,
@@ -20,6 +21,7 @@ class HeroSection extends StatelessWidget {
                 ? Axis.vertical
                 : Axis.horizontal,
             crossAxisAlignment: CrossAxisAlignment.center,
+            
             children: [
               Expanded(
                 flex: isMobile ? 0 : 1,
@@ -27,6 +29,7 @@ class HeroSection extends StatelessWidget {
                   crossAxisAlignment: isMobile
                       ? CrossAxisAlignment.center
                       : CrossAxisAlignment.start,
+                  
                   children: [
                     Text(
                       'Temukan Penginapan Impianmu',
@@ -34,8 +37,10 @@ class HeroSection extends StatelessWidget {
                         ? TextAlign.center
                         : TextAlign.start,
                       style: const TextStyle(
+                        color: Color(0xFF0F172A),
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
+                        height: 1.2,
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -47,6 +52,7 @@ class HeroSection extends StatelessWidget {
                         ? TextAlign.center
                         : TextAlign.start,
                       style: TextStyle(
+                        color: Color(0xFF64748B),
                         fontSize: 18,
                         height: 1.5,
                       ),
@@ -56,7 +62,29 @@ class HeroSection extends StatelessWidget {
 
                     ElevatedButton(
                       onPressed: () {},
-                      child: const Text('Jelajahi Hotel'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFC9A227),
+                        foregroundColor: const Color(0xFF0F172A),
+                        elevation: 0,
+
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 28,
+                          vertical: 16,
+                        ),
+
+                        shape: RoundedRectangleBorder( 
+                          borderRadius: BorderRadius.circular(12), //Membuat sudut tombol melengkung sebesar 12.
+                        ),
+                      ),
+
+                      child: const Text(
+                        'Jelajahi Hotel',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
                     ),
                   ],
                 ),
