@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../screens/home_screen.dart';
 
 class RegisterScreen extends StatelessWidget{
   const RegisterScreen({super.key});
@@ -189,7 +190,7 @@ class RegisterScreen extends StatelessWidget{
                       // Aksi daftar dibuat nanti
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFC9A227),
+                      backgroundColor:  const Color(0xFFC9A227),
                       foregroundColor: const Color(0xFF0F172A),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/hotel.dart';
+import '../screens/hotel_detail_screen.dart';
 
 class HotelSection extends StatelessWidget{
   const HotelSection({super.key});
@@ -53,67 +54,79 @@ class HotelSection extends StatelessWidget{
             itemBuilder: (context, index){ //itemBuilder = fungsi untuk membuat setiap item. index = nomor urut item, dimulai dari 0.
               final hotel = hotels[index]; //Mengambil satu data hotel berdasarkan posisi index
               final priceFormat = NumberFormat('#,###', 'id_ID'); //Digunakan untuk mengatur format angka sesuai Indonesia.
-              return Card(
-                margin: const EdgeInsets.only(bottom: 20),
-                clipBehavior: Clip.antiAlias,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox( //Bagian ini mengatur ukuran gambar
-                      width: 240,
-                      height: 160,
-                      child: Image.network(
-                        hotel.imageUrl,
-                        fit: BoxFit.cover,
+              return InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HotelDetailScreen(
+                        hotel: hotel,
                       ),
                     ),
-
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              hotel.name,
-                              style: const TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-
-                            const SizedBox(height: 16),
-
-                            Text(
-                              '📍 ${hotel.location}',
-                              style: const TextStyle(
-                                color: Colors.grey,
-                                fontSize: 16,
-                              ),
-                            ),
-
-                            const SizedBox(height: 8),
-
-                            Text(
-                              'Rp${priceFormat.format(hotel.price)} / malam',
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-
-                            Text(
-                              '⭐ ${hotel.rating}',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                ),
-                            ),
-                          ],
+                  );
+                },
+                child: Card(
+                  margin: const EdgeInsets.only(bottom: 20),
+                  clipBehavior: Clip.antiAlias,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox( //Bagian ini mengatur ukuran gambar
+                        width: 240,
+                        height: 160,
+                        child: Image.network(
+                          hotel.imageUrl,
+                          fit: BoxFit.cover,
                         ),
                       ),
-                    ),
-                  ],
+
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                hotel.name,
+                                style: const TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+
+                              const SizedBox(height: 16),
+
+                              Text(
+                                '📍 ${hotel.location}',
+                                style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 16,
+                                ),
+                              ),
+
+                              const SizedBox(height: 8),
+
+                              Text(
+                                'Rp${priceFormat.format(hotel.price)} / malam',
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+
+                              Text(
+                                '⭐ ${hotel.rating}',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
