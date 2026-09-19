@@ -4,6 +4,7 @@ import 'package:flutter/material.dart'; //mengambil library Flutter.
 import '../widgets/hero_section.dart';
 import '../widgets/hotel_section.dart';
 import 'hotel_detail_screen.dart';
+import 'hotels_screen.dart';
 
 // membuat widget halaman Home.
 class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state yang berubah.
@@ -40,7 +41,14 @@ class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state ya
                     ),
 
                     TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push( //kita meminta Flutter membuka halaman baru di atas halaman sekarang.
+                            context,
+                            MaterialPageRoute( //menentukan halaman baru yang mau dibuka, yaitu HotelsScreen.
+                              builder: (context) => const HotelsScreen(),
+                            ),
+                          );
+                        },
                         child: const Text(
                           'Hotels',
                           style: TextStyle(

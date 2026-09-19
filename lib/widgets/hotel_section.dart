@@ -1,34 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../models/hotel.dart';
 import '../screens/hotel_detail_screen.dart';
+import '../data/hotel_data.dart';
 
 class HotelSection extends StatelessWidget{
   const HotelSection({super.key});
-
-  final List<Hotel> hotels = const [ //membuat list yang hanya boleh berisi object bertipe Hotel.
-    Hotel( 
-      name: 'Roomly Grand Hotel', 
-      location: 'Jakarta', 
-      imageUrl: 'https://images.unsplash.com/photo-1551286923-c82d6a8ae079?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDJ8fHxlbnwwfHx8fHw%3D',
-      price: 850000.0, 
-      rating: 4.8,
-    ),
-    Hotel(
-      name: 'Roomly Luxury Resort', 
-      location: 'Bali', 
-      imageUrl: 'https://images.unsplash.com/photo-1660839638327-3943e1846e3a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D',
-      price: 1200000.0,
-      rating: 4.9,
-    ),
-    Hotel(
-      name: 'Roomly City Hotel',
-      location: 'Bandung',
-      imageUrl: 'https://images.unsplash.com/photo-1789073730743-1610768a9ac6?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDI5fHx8ZW58MHx8fHx8',
-      price: 650000.0,
-      rating: 4.7,
-    ),
-  ];
 
   @override
   Widget build(BuildContext context){
