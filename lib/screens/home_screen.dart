@@ -5,6 +5,7 @@ import '../widgets/hero_section.dart';
 import '../widgets/hotel_section.dart';
 import 'hotel_detail_screen.dart';
 import 'hotels_screen.dart';
+import 'about_screen.dart';
 
 // membuat widget halaman Home.
 class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state yang berubah.
@@ -58,7 +59,14 @@ class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state ya
                     ),
 
                     TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const AboutScreen(),
+                          ),
+                        );
+                        },
                         child: const Text(
                           'About',
                           style: TextStyle(
