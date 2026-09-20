@@ -33,144 +33,171 @@ class HotelDetailScreen extends StatelessWidget{
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              width: double.infinity,
-              height: 320,
-              child: Image.network(
-                hotel.imageUrl,
-                fit: BoxFit.cover,
+            ClipRRect( //memotong bentuk widget mengikuti sudut yang kita tentukan.
+              borderRadius: BorderRadius.circular(16),
+              child: SizedBox(
+                width: double.infinity,
+                height: 320,
+                child: Image.network(
+                  hotel.imageUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          
-          // INFORMASI HOTEL
-          Padding(
-            padding: const EdgeInsets.all(28),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  hotel.name,
-                  style: const TextStyle(
-                    color: Color(0xFF0F172A),
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 12),
-
-                Row(
+            // INFORMASI HOTEL
+            Center(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                maxWidth: 1200,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(28),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(
-                      Icons.location_on_outlined,
-                      color: Color(0xFF64748B),
-                    ),
-                    const SizedBox(width: 6),
                     Text(
-                      hotel.location,
-                      style: const TextStyle(
-                        color: Color(0xFF64748B),
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 24),
-
-                Text(
-                  'Rp ${priceFormat.format(hotel.price)}',
-                  style: const TextStyle(
-                    color: Color(0xFFC9A227),
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-
-                const Text(
-                  ' / malam',
-                  style: TextStyle(
-                    color: Color(0xFF64748B),
-                    fontSize: 16,
-                  ),
-                ),
-                const SizedBox(height: 16),
-
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.star,
-                      color: Color(0xFFC9A227),
-                    ),
-                    const SizedBox(width: 6),
-
-                    Text(
-                      '${hotel.rating}',
+                      hotel.name,
                       style: const TextStyle(
                         color: Color(0xFF0F172A),
-                        fontSize: 16,
+                        fontSize: 32,
                         fontWeight: FontWeight.bold,
                       ),
-                    ),  
-                  ],
-                ),
-                const SizedBox(height: 32),
+                    ),
+                    const SizedBox(height: 14),
 
-                const Text(
-                  'Deskripsi Hotel',
-                  style: TextStyle(
-                    color: Color(0xFF0F172A),
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                
-                const Text(
-                  'Nikmati pengalaman menginap yang nyaman '
-                  'dan mewah bersama Roomly. Hotel ini menyediakan '
-                  'fasilitas terbaik untuk membuat perjalananmu '
-                  'menjadi lebih menyenangkan.',
-                  style: TextStyle(
-                    color: Color(0xFF64748B),
-                    fontSize: 16,
-                    height: 1.6,
-                  ),
-                ),
-                const SizedBox(height: 32),
-
-                // TOMBOL PESAN
-                SizedBox(
-                  width: double.infinity,
-                  height: 54,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar( //Mengambil pengelola pesan dari Scaffold yang sedang aktif.
-                        SnackBar( //Menampilkan pesan kecil sementara di bagian bawah layar.
-                          content: Text(
-                            'Pemesanan ${hotel.name} belum tersedia.',
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.location_on_outlined,
+                          color: Color(0xFF64748B),
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          hotel.location,
+                          style: const TextStyle(
+                            color: Color(0xFF64748B),
+                            fontSize: 16,
                           ),
                         ),
-                      );
-                    }, 
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFC9A227),
-                      foregroundColor: const Color(0xFF0F172A),
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                      ],
+                    ),
+                    const SizedBox(height: 28),
+
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.baseline, //teks disejajarkan berdasarkan garis dasar tulisan.
+                      textBaseline: TextBaseline.alphabetic, //Flutter menggunakan baseline yang sesuai dengan teks alfabet.
+                      children: [
+                        Text(
+                          'Rp ${priceFormat.format(hotel.price)}',
+                          style: const TextStyle(
+                            color: Color(0xFFC9A227),
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        
+                        const Text(
+                          '/ malam',
+                          style: TextStyle(
+                            color: Color(0xFF64748B),
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFF8E1),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.star,
+                            color: Color(0xFFC9A227),
+                          ),
+                          const SizedBox(width: 6),
+
+                          Text(
+                            '${hotel.rating}',
+                            style: const TextStyle(
+                              color: Color(0xFF0F172A),
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                          ),
+                          ),  
+                        ],
                       ),
                     ),
-                    child: const Text(
-                      'PESAN SEKARANG',
+                    const SizedBox(height: 32),
+
+                    const Text(
+                      'Deskripsi Hotel',
                       style: TextStyle(
-                        fontSize: 16,
+                        color: Color(0xFF0F172A),
+                        fontSize: 22,
                         fontWeight: FontWeight.bold,
-                        letterSpacing: 1,
                       ),
                     ),
-                  ),
+                    const SizedBox(height: 12),
+                    
+                    const Text(
+                      'Nikmati pengalaman menginap yang nyaman '
+                      'dan mewah bersama Roomly. Hotel ini menyediakan '
+                      'fasilitas terbaik untuk membuat perjalananmu '
+                      'menjadi lebih menyenangkan.',
+                      style: TextStyle(
+                        color: Color(0xFF64748B),
+                        fontSize: 16,
+                        height: 1.6,
+                      ),
+                    ),
+                    const SizedBox(height: 32),
+
+                    // TOMBOL PESAN
+                    SizedBox(
+                      width: double.infinity,
+                      height: 54,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          ScaffoldMessenger.of(context).showSnackBar( //Mengambil pengelola pesan dari Scaffold yang sedang aktif.
+                            SnackBar( //Menampilkan pesan kecil sementara di bagian bawah layar.
+                              content: Text(
+                                'Pemesanan ${hotel.name} belum tersedia.',
+                              ),
+                            ),
+                          );
+                        }, 
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFC9A227),
+                          foregroundColor: const Color(0xFF0F172A),
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: const Text(
+                          'PESAN SEKARANG',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+                ),
+              ),
             ),
           ],
         ),

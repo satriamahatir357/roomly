@@ -79,7 +79,7 @@ class HotelsScreen extends StatelessWidget{
                     ],
                   ),
 
-                  trailing: Row( //ecara default bisa mencoba mengambil ruang sebanyak mungkin
+                  trailing: Row( //secara default bisa mencoba mengambil ruang sebanyak mungkin
                     mainAxisSize: MainAxisSize.min, //Row ini ambil ruang secukupnya sesuai isi. Jadi rating tidak memakan seluruh area sebelah kanan
                     children: [
                       const Icon(
