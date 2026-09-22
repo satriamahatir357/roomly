@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'developer_about_screen.dart';
 
 class AboutScreen extends StatelessWidget{
   const AboutScreen({super.key});
@@ -109,8 +110,37 @@ class AboutScreen extends StatelessWidget{
                     );
                   },
                 ),
+                const SizedBox(height: 60),
+
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const DeveloperAboutScreen(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFC9A227),
+                    foregroundColor: const Color(0xFF0F172A),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 28,
+                      vertical: 16,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: const Text(
+                    'About Developer',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ],
-            ),
+            ), 
           ),
         ),
       ),
