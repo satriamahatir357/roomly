@@ -20,13 +20,16 @@ class HotelDetailScreen extends StatefulWidget{ //StatelessWidget cocok kalau ta
   class _HotelDetailScreenState extends State<HotelDetailScreen> { //State yang menyimpan data yang bisa berubah untuk HotelDetailScreen.
     int _numberOfNights = 1;
 
+    final TextEditingController _guestNameController =  //TextEditingController : Controller ini digunakan untuk mengambil dan mengontrol isi dari TextField.
+      TextEditingController();
+
   get color => null; //default-nya 1 malam.
 
     @override
     Widget build(BuildContext context){
       final priceFormat = NumberFormat('#,###', 'id_ID');
       final booking = Booking( //Buat object Booking
-        guestName: 'Guest',
+        guestName: _guestNameController.text, //Controller tersebut menyimpan hubungan dengan TextField.
         hotel: widget.hotel,
         numberOfNights: _numberOfNights,
       );
@@ -179,6 +182,31 @@ class HotelDetailScreen extends StatefulWidget{ //StatelessWidget cocok kalau ta
                       ),
                       const SizedBox(height: 24),
 
+                      // Nama Tamu
+                      const Text(
+                        'Nama Tamu',
+                        style: TextStyle(
+                          color: Color(0xFF0F172A),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+
+                      TextField(
+                        controller: _guestNameController, //TextField dan controller terhubung.
+                        decoration: InputDecoration( //InputDecoration untuk menentukan hint, warna background, border, dan sebagainya.
+                          hintText: 'Masukkan nama tamu', //ni adalah teks petunjuk yang muncul ketika field masih kosong.
+                          filled: true, //filled: true memberi tahu Flutter bahwa kita ingin memberikan warna isi/background pada field.
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide.none, //border garisnya tidak ditampilkan.
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+
                       Row(
                         children: [
                           const Text(
@@ -249,8 +277,18 @@ class HotelDetailScreen extends StatefulWidget{ //StatelessWidget cocok kalau ta
                         height: 54,
                         child: ElevatedButton(
                           onPressed: () {
+                            if (_guestNameController.text.isEmpty){ //.isEmpty adalah property untuk mengecek apakah String tidak memiliki karakter.
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Nama tamu wajib disini.'
+                                  ),
+                                ),
+                              );
+                              return;
+                            }
+
                             final booking = Booking(
-                              guestName: 'Guest',
+                              guestName: _guestNameController.text, //Controller tersebut menyimpan hubungan dengan TextField.
                               hotel: widget.hotel,
                               numberOfNights: _numberOfNights,
                             );
@@ -258,7 +296,8 @@ class HotelDetailScreen extends StatefulWidget{ //StatelessWidget cocok kalau ta
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
-                                  'Booking berhasil! Total: Rp ${priceFormat.format(booking.calculateTotalPrice())}',
+                                  'Booking berhasil untuk ${booking.guestName}! '
+                                  'Total: Rp ${priceFormat.format(booking.calculateTotalPrice())}',
                                 ),
                               ),
                             );
