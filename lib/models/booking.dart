@@ -15,8 +15,8 @@ class Booking {
   
       // Getter
         String get guestName => _guestName;
-        Hotel get hotel => hotel;
-        int get numberOfNights => numberOfNights;
+        Hotel get hotel => _hotel;
+        int get numberOfNights => _numberOfNights;
 
       // Setter
         set guestName(String value){

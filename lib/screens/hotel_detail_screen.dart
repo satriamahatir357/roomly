@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/hotel.dart';
 import '../models/booking.dart';
+import 'booking_summary_screen.dart';
 
 class HotelDetailScreen extends StatefulWidget{ //StatelessWidget cocok kalau tampilan tidak punya data yang berubah selama screen digunakan.
   final Hotel hotel; //Menyimpan data hotel yang dipilih.
@@ -293,11 +294,11 @@ class HotelDetailScreen extends StatefulWidget{ //StatelessWidget cocok kalau ta
                               numberOfNights: _numberOfNights,
                             );
 
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'Booking berhasil untuk ${booking.guestName}! '
-                                  'Total: Rp ${priceFormat.format(booking.calculateTotalPrice())}',
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => BookingSummaryScreen(
+                                  booking: booking,
                                 ),
                               ),
                             );
