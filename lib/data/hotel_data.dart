@@ -1,6 +1,6 @@
 import '../models/hotel.dart';
 
-const List<Hotel> hotels = [
+final List<Hotel> hotels = [
   Hotel(
     name: 'Roomly Grand Hotel',
     location: 'Jakarta',

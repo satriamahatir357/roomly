@@ -48,7 +48,7 @@ class HotelsScreen extends StatelessWidget{
                   ),
 
                   title: Text(
-                    hotel.name,
+                    hotel.getHotelInfo(),
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
