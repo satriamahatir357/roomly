@@ -1,219 +1,228 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:video_player/video_player.dart';
 import 'package:roomly/screens/register_screen.dart';
-import '../screens/home_screen.dart';
+import 'package:roomly/screens/home_screen.dart';
 
-class LoginScreen extends StatelessWidget{
+class LoginScreen extends StatefulWidget{ //karena nanti video bisa berubah kondisinya: loading → siap → play.
   const LoginScreen({super.key});
 
   @override
-  Widget build(BuildContext context){
-    return Scaffold(
-      body: LayoutBuilder( //digunakan untuk mengetahui ukuran ruang yang tersedia.
-        builder: (context, Constraints){
-          final isMobile = Constraints.maxWidth < 800; //Jika lebar layar kurang dari 800, dianggap mobile. Jika lebar layar 800 atau lebih, dianggap desktop/web lebar.
-          
-          return isMobile
-            ? SingleChildScrollView(
-              child: Column(
-                children: [
-                  _buildWelcomeSection(),
-                  _buildLoginSection(context),
-                ],
-              ),
-            )
-            : Row( //menyusun widget secara horizontal.
-                children: [
-                  Expanded( //membuat widget mengambil ruang yang tersedia.
-                    child: _buildWelcomeSection(),
-                  ),
-                  Expanded(
-                    child: _buildLoginSection(context),
-                  ),
-                ],
-            );
-        },
-      ),
-    );
+  State<LoginScreen> createState() => _LoginScreenState();
+  //LoginScreen adalah bagian widget-nya, sedangkan _LoginScreenState menyimpan keadaan yang bisa berubah.
   }
 
-  // === BAGIAN KIRI ===
-  Widget _buildWelcomeSection(){
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.only(
-        top: 100,
-        left: 68,
-        right: 48,
-        bottom: 48,
-      ),
-      color: const Color(0xFF0F172A),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start, //Pada Column, ini membuat isi rata kiri. Tanpa ini, posisi teks bisa berada di tengah secara horizontal.
-        children: [
-          Image.asset(
-            'assets/images/roomly_logo.png',
-            width: 280,
-            height: 100,
-            fit: BoxFit.contain, //Membuat seluruh logo tetap terlihat tanpa terpotong.
-          ),
-          const SizedBox(height: 70),
+  class _LoginScreenState extends State<LoginScreen>{
+    late VideoPlayerController _videoController; //late Artinya: variabel ini belum diisi sekarang, tapi nanti pasti akan diisi sebelum digunakan.
+    
+    bool _isPasswordVisible = false;
+    bool _isVideoInitialized = false;
 
-          const Text(
-            'Selamat datang di Roomly',
-            style: TextStyle(
-              color: Color(0xFFC9A227),
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 4
-            ),
-          ),
-          const SizedBox(height: 16),
+    @override
+    void initState() { //persiapan video 
+      super.initState(); //tampilan login
+    
+      _videoController = VideoPlayerController.asset( //membuat sebuah controller video yang sumber videonya berasal dari asset lokal.
+        'assets/videos/login_background.mp4',
+      );
 
-          const Text(
-            'Temukan penginapan impianmu dan '
-            'nikmati pengalaman menginap yang '
-            'mewah bersama Roomly.',
-            style: TextStyle(
-              color: Color(0xFFCBD5E1),
-              fontSize: 17,
-              height: 1.6,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+      _videoController.initialize().then((_) {
+        _videoController.setLooping(true);
+        _videoController.setVolume(0);
+        _videoController.play();
 
-  // === BAGIAN KANAN ===
-  Widget _buildLoginSection(BuildContext context){
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(48),
-      color: const Color(0xFFF8F7F3),
-      child: Center(
-        child: ConstrainedBox( //Membatasi lebar form maksimal 420.
-          constraints: const BoxConstraints(
-            maxWidth: 420,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'USER LOGIN',
-                style: TextStyle(
-                  color: Color(0xFF0F172A),
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 2,
+        if (mounted) { //mounted: initialize() itu proses asynchronous. Artinya, prosesnya bisa selesai setelah halaman Login sudah ditutup.
+          setState(() {
+            _isVideoInitialized = true;
+          });
+        }
+      });
+    }
+
+    @override
+    void dispose() { 
+      _videoController.dispose(); //Controller video menggunakan resource dari video.
+      super.dispose();
+    }
+
+    @override
+    Widget build(BuildContext context){
+      return Scaffold(
+        body: Stack( //Stack memungkinkan beberapa widget ditumpuk di posisi yang sama.
+          children: [
+            // Background video
+            if (_isVideoInitialized)
+            Positioned.fill(
+              child: FittedBox(
+                fit: BoxFit.cover,
+                child: SizedBox(
+                  width: _videoController.value.size.width,
+                  height: _videoController.value.size.height,
+                  child: VideoPlayer(_videoController),
                 ),
               ),
-              const SizedBox(height: 36),
+            ),
 
-              // INPUT EMAIL
-              TextField( 
-                keyboardType: TextInputType.emailAddress, //Supaya keyboard/input yang muncul lebih sesuai untuk email.
-                decoration: InputDecoration( //mengatur tampilan input:
-                  labelText: 'Email',
-                  hintText: 'Masukkan email anda',
-                  prefixIcon: const Icon(
-                    Icons.email_outlined,
+            // Overlay gelap
+            Positioned.fill( //Widget ini memenuhi seluruh area Stack.
+              child: Container(
+                color: const Color(0x990F172A),
+              ),
+            ),
+
+            // Login card
+            Center(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(20),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width < 600 //mengambil lebar layar saat ini.
+                        ? 300
+                        : 420,
                   ),
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-              ),
-            const SizedBox(height: 20),
-
-            // INPUT PASSWORD
-            TextField(
-              obscureText: true, //Membuat input password menjadi tersembunyi.
-              decoration: InputDecoration(
-                labelText: 'Password',
-                hintText: 'Masukkan password anda',
-                prefixIcon: const Icon(
-                  Icons.lock_outline,
-                ),
-                filled: true,
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-            ),
-            const SizedBox(height: 28),
-
-            // TOMBOL LOGIN
-            SizedBox(
-              width: double.infinity,
-              height: 52,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const HomeScreen(),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 20,
                     ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFC9A227),
-                  foregroundColor: const Color(0xFF0F172A),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    decoration: BoxDecoration(
+                      color: const Color(0xF2F8F7F3),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+              
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min, //Column mengambil tinggi secukupnya sesuai isi, bukan memenuhi seluruh tinggi card.
+                        children: [
+                          Image.asset(
+                            'assets/images/roomly_logo.png',
+                            width: 160,
+                            height: 60,
+                            fit: BoxFit.contain,
+                          ),
+                          const SizedBox(height: 12),
+
+                          const Text(
+                            'USER LOGIN',
+                            style: TextStyle(
+                              color: Color(0xFF0F172A),
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 2, //Mengatur jarak antar karakter.
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+
+                          TextField( //widget untuk menerima input dari user.
+                            keyboardType: TextInputType.emailAddress, //Flutter akan tahu bahwa field ini digunakan untuk email.
+                            decoration: InputDecoration(
+                              labelText: 'Email',
+                              hintText: 'Masukkan email anda',
+                              prefixIcon: const Icon(Icons.email_outlined),
+                              filled: true,
+                              fillColor: Colors.white,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+
+                          TextField(
+                            obscureText: !_isPasswordVisible,
+                            decoration: InputDecoration(
+                              labelText: 'Password',
+                              hintText: 'Masukkan password anda',
+                              prefixIcon: const Icon(Icons.lock_outline),
+                              suffixIcon: IconButton( //suffixIcon : berarti icon ditempatkan di ujung kanan TextField.
+                                onPressed: () {
+                                  setState(() {
+                                    _isPasswordVisible = !_isPasswordVisible;
+                                  });
+                                },
+                                icon: Icon(
+                                  _isPasswordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                ),
+                              ),
+
+                              filled: true,
+                              fillColor: Colors.white,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 18),
+
+                          SizedBox(
+                            width: double.infinity,
+                            height: 52,
+                            child: ElevatedButton( //Ini widget tombol Flutter yang cocok untuk aksi utama seperti Login.
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const HomeScreen(),
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFFC9A227),
+                                foregroundColor: const Color(0xFF0F172A),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              child: const Text(
+                                'LOGIN',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                'Belum punya akun?',
+                                style: TextStyle(
+                                  color: Color(0xFF64748B),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute( //memberi tahu Flutter bahwa halaman baru yang mau dibuka adalah sebuah route.
+                                      builder: (context) => const RegisterScreen(),
+                                    ),
+                                  );
+                                },
+                                child: const Text(
+                                  'Daftar',
+                                  style: TextStyle(
+                                    color: Color(0xFFC9A227),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                child: const Text(
-                  'LOGIN',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1,
-                  ),
-                ),
-              ),
+              )
             ),
-            const SizedBox(height: 24),
-
-            // BAGIAN DAFTAR
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Belum punya akun?',
-                  style: TextStyle(
-                    color: Color(0xFF64748B),
-                  ),   
-                ),
-
-                TextButton(onPressed: () {
-                  Navigator.push(context,
-                  MaterialPageRoute(
-                    builder: (context) => const RegisterScreen(),
-                    ),
-                  );
-                },
-                  child: const Text(
-                    'Daftar',
-                    style: TextStyle(
-                      color: Color(0xFFC9A227),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ), 
-                ),
-              ],
-            ),
-            ],
-          ),
+          ],
         ),
-      ),
-    );
+      );
   }
-
 }
