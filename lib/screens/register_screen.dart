@@ -1,93 +1,98 @@
 import 'package:flutter/material.dart';
-import '../screens/home_screen.dart';
+import 'package:video_player/video_player.dart';
 
-class RegisterScreen extends StatelessWidget{
+class RegisterScreen extends StatefulWidget{
   const RegisterScreen({super.key});
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  late VideoPlayerController _videoController; //Untuk mengontrol video background.
+  bool _isVideoInitialized = false;
+  bool _isPasswordVisible = false;
+  bool _isConfirmPasswordVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _videoController = VideoPlayerController.asset(
+      'assets/videos/login_background.mp4',
+    );
+
+    _videoController.initialize().then((_) {
+      _videoController.setLooping(true);
+      _videoController.setVolume(0);
+      _videoController.play();
+
+      if (mounted) {
+        setState(() {
+          _isVideoInitialized = true;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _videoController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          final isMobile = constraints.maxWidth < 800;
-
-          return isMobile 
-            ? SingleChildScrollView(
-              child: Column(
-                children: [
-                  _buildWelcomeSection(),
-                  _buildRegisterSection(context),
-                ],
+      body: Stack(
+        children: [
+          // Background video
+          if (_isVideoInitialized)
+            Positioned.fill(
+              child: FittedBox(
+                fit: BoxFit.cover,
+                child: SizedBox(
+                  width: _videoController.value.size.width,
+                  height: _videoController.value.size.height,
+                  child: VideoPlayer(_videoController),
+                ),
               ),
-            )
-            : Row(
-              children: [
-                Expanded(
-                  child: _buildWelcomeSection(),
-                ),
-                Expanded(
-                  child: _buildRegisterSection(context),
-                ),
-              ],
-            );
-        },
+            ),
+
+          // Overlay gelap
+          Positioned.fill(
+            child: Container(
+              color: const Color(0x990F172A),
+            ),
+          ),
+
+          // Register card
+          Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(20),
+              child: _buildRegisterSection(context),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  // === BAGIAN KIRI ===
-  Widget _buildWelcomeSection(){
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.only(
-        top: 80,
-        left: 68,
-        right: 48,
-        bottom: 48,
-      ),
-    color: const Color(0xFF0F172A),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Image.asset(
-          'assets/images/roomly_logo.png',
-          width: 280,
-          height: 110,
-          fit: BoxFit.contain,
-        ),
-        const SizedBox(height: 70),
-
-        const Text(
-          'Bergabung bersama Roomly',
-          style: TextStyle(
-            color: Color(0xFFC9A227),
-            fontSize: 34,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 16),
-
-        const Text(
-          'Buat akun Roomly dan temukan '
-          'penginapan terbaik untuk perjalananmu.',
-          style: TextStyle(
-            color: Color(0xFFCBD5E1),
-            fontSize: 17,
-            height: 1.6,
-          ),
-        ),
-      ],
-    ),
-    );
-  }
-
-  // === BAGIAN KANAN ===
   Widget _buildRegisterSection(BuildContext context){
     return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(48),
-      color: const Color(0xFFF8F7F3),
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width < 600
+            ? 300
+            : 420,
+      ),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 12,
+      ),
+      decoration: BoxDecoration(
+        color: const Color(0xF2F8F7F3),
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Center(
         child: ConstrainedBox( //Membatasi lebar form agar tidak terlalu lebar di desktop.
           constraints: const BoxConstraints(
@@ -96,6 +101,14 @@ class RegisterScreen extends StatelessWidget{
           child:Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Image.asset(
+                'assets/images/roomly_logo.png',
+                width: 160,
+                height: 60,
+                fit: BoxFit.contain,
+              ),
+              const SizedBox(height: 12),
+
               const Text(
                 'BUAT AKUN',
                 style: TextStyle(
@@ -145,13 +158,26 @@ class RegisterScreen extends StatelessWidget{
                 
                 // INPUT PASSWORD
                 TextField(
-                  obscureText: true, //Menyembunyikan isi password.
+                  obscureText: !_isPasswordVisible,
                   decoration: InputDecoration(
                     labelText: 'Password',
                     hintText: 'Buat password',
                     prefixIcon: const Icon(
                       Icons.lock_outline,
                     ),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _isPasswordVisible = !_isPasswordVisible;
+                        });
+                      },
+                      icon: Icon(
+                        _isPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                      ),
+                    ), 
+
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
@@ -164,12 +190,25 @@ class RegisterScreen extends StatelessWidget{
 
                 // KONFIRMASI PASSWORD
                 TextField(
-                  obscureText: true,
+                  obscureText: !_isConfirmPasswordVisible,
                   decoration: InputDecoration(
                     labelText: 'Konfirmasi password',
                     hintText: 'Ulangi password',
                     prefixIcon: const Icon(
                       Icons.lock_reset_outlined,
+                    ),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _isConfirmPasswordVisible =
+                              !_isConfirmPasswordVisible;
+                        });
+                      },
+                      icon: Icon(
+                        _isConfirmPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                      ),
                     ),
                     filled: true,
                     fillColor: Colors.white,
@@ -187,7 +226,11 @@ class RegisterScreen extends StatelessWidget{
                   height: 52,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Aksi daftar dibuat nanti
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Fitur pendaftaran akan tersedia nanti.'),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor:  const Color(0xFFC9A227),
