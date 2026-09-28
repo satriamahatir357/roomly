@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import '../models/user.dart';
+import '../services/user_service.dart';
 
 class RegisterScreen extends StatefulWidget{
   const RegisterScreen({super.key});
@@ -310,12 +312,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         return;
                       }
 
+                      final user = User(
+                        name: _nameController.text,
+                        email: _emailController.text,
+                        password: _passwordController.text,
+                      );
+
+                      userService.register(user); //pemanggilan register()
+
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Registrasi berhasil.'),
                         ),
                       );
                     },
+
                     style: ElevatedButton.styleFrom(
                       backgroundColor:  const Color(0xFFC9A227),
                       foregroundColor: const Color(0xFF0F172A),

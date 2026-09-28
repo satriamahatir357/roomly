@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:roomly/screens/register_screen.dart';
 import 'package:roomly/screens/home_screen.dart';
+import '../services/user_service.dart';
 
 class LoginScreen extends StatefulWidget{ //karena nanti video bisa berubah kondisinya: loading → siap → play.
   const LoginScreen({super.key});
@@ -12,6 +13,12 @@ class LoginScreen extends StatefulWidget{ //karena nanti video bisa berubah kond
   }
 
   class _LoginScreenState extends State<LoginScreen>{
+    final TextEditingController _emailController =
+        TextEditingController();
+
+    final TextEditingController _passwordController =
+        TextEditingController();
+
     late VideoPlayerController _videoController; //late Artinya: variabel ini belum diisi sekarang, tapi nanti pasti akan diisi sebelum digunakan.
     
     bool _isPasswordVisible = false;
@@ -40,6 +47,8 @@ class LoginScreen extends StatefulWidget{ //karena nanti video bisa berubah kond
 
     @override
     void dispose() { 
+      _emailController.dispose();
+      _passwordController.dispose();
       _videoController.dispose(); //Controller video menggunakan resource dari video.
       super.dispose();
     }
@@ -112,6 +121,7 @@ class LoginScreen extends StatefulWidget{ //karena nanti video bisa berubah kond
                           const SizedBox(height: 20),
 
                           TextField( //widget untuk menerima input dari user.
+                            controller: _emailController,
                             keyboardType: TextInputType.emailAddress, //Flutter akan tahu bahwa field ini digunakan untuk email.
                             decoration: InputDecoration(
                               labelText: 'Email',
@@ -128,6 +138,7 @@ class LoginScreen extends StatefulWidget{ //karena nanti video bisa berubah kond
                           const SizedBox(height: 12),
 
                           TextField(
+                            controller: _passwordController,
                             obscureText: !_isPasswordVisible,
                             decoration: InputDecoration(
                               labelText: 'Password',
@@ -161,13 +172,27 @@ class LoginScreen extends StatefulWidget{ //karena nanti video bisa berubah kond
                             height: 52,
                             child: ElevatedButton( //Ini widget tombol Flutter yang cocok untuk aksi utama seperti Login.
                               onPressed: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const HomeScreen(),
-                                  ),
+                                final success = userService.login(
+                                  _emailController.text,
+                                  _passwordController.text,
                                 );
+
+                                if (success) {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const HomeScreen(),
+                                    ),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Email atau password salah.'),
+                                    ),
+                                  );
+                                }
                               },
+                              
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFFC9A227),
                                 foregroundColor: const Color(0xFF0F172A),
