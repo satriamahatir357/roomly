@@ -14,6 +14,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
 
+  final TextEditingController _nameController = //_nameController adalah objek yang mengontrol sebuah TextField, sedangkan .text digunakan untuk mengambil teks yang sedang dimasukkan user.
+    TextEditingController();
+
+  final TextEditingController _emailController =
+      TextEditingController();
+
+  final TextEditingController _passwordController =
+      TextEditingController();
+
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -38,6 +50,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void dispose() {
     _videoController.dispose();
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+
     super.dispose();
   }
 
@@ -121,6 +138,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
               // INPUT NAMA
               TextField(
+                controller: _nameController,
                 decoration: InputDecoration(
                   labelText: 'Nama lengkap',
                   hintText: 'Masukkan nama lengkap',
@@ -139,6 +157,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
               // INPUT EMAIL
               TextField(
+                controller: _emailController,
                 keyboardType: TextInputType.emailAddress, //Mengatur jenis keyboard/input untuk email.
                 decoration: InputDecoration(
                   labelText: 'Email',
@@ -158,6 +177,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 
                 // INPUT PASSWORD
                 TextField(
+                  controller: _passwordController,
                   obscureText: !_isPasswordVisible,
                   decoration: InputDecoration(
                     labelText: 'Password',
@@ -190,6 +210,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 // KONFIRMASI PASSWORD
                 TextField(
+                  controller: _confirmPasswordController,
                   obscureText: !_isConfirmPasswordVisible,
                   decoration: InputDecoration(
                     labelText: 'Konfirmasi password',
@@ -226,9 +247,72 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   height: 52,
                   child: ElevatedButton(
                     onPressed: () {
+                      if (_nameController.text.isEmpty) { //Kalau isi TextField nama kosong...
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Nama lengkap wajib diisi.'),
+                          ),
+                        );
+                        return; //Hentikan proses onPressed di titik ini.
+                      }
+
+                      if (_emailController.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Email wajib diisi.'),
+                          ),
+                        );
+                        return;
+                      }
+
+                      if (!_emailController.text.endsWith('@gmail.com')) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Email harus menggunakan @gmail.com.'),
+                          ),
+                        );
+                        return;
+                      }
+
+                      if (_passwordController.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Password wajib diisi.'),
+                          ),
+                        );
+                        return;
+                      }
+
+                      if (_passwordController.text.length < 8) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Password minimal 8 karakter.'),
+                          ),
+                        );
+                        return;
+                      }
+
+                      if (_confirmPasswordController.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Konfirmasi password wajib diisi.'),
+                          ),
+                        );
+                        return;
+                      }
+
+                      if (_passwordController.text != _confirmPasswordController.text) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Password dan konfirmasi password tidak sama.'),
+                          ),
+                        );
+                        return;
+                      }
+
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Fitur pendaftaran akan tersedia nanti.'),
+                          content: Text('Registrasi berhasil.'),
                         ),
                       );
                     },
