@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/booking.dart';
 import 'package:intl/intl.dart';
+import '../services/booking_service.dart';
 
 class BookingSummaryScreen extends StatelessWidget{
   final Booking booking; //halaman ini menyimpan satu object Booking.
@@ -236,6 +237,8 @@ class BookingSummaryScreen extends StatelessWidget{
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
+                            bookingService.addBooking(booking);
+
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text('Booking berhasil dikonfirmasi!'),
