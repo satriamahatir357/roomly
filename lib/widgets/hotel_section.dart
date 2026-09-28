@@ -8,6 +8,11 @@ class HotelSection extends StatelessWidget{
 
   @override
   Widget build(BuildContext context){
+    final recommendedHotels = ([...hotels]
+        ..sort((a, b) => b.rating.compareTo(a.rating)))
+      .take(3)
+      .toList();
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 32),
       child: Column(
@@ -26,9 +31,9 @@ class HotelSection extends StatelessWidget{
           ListView.builder( //Digunakan untuk membuat daftar secara dinamis.
             shrinkWrap: true, //Memberitahu ListView agar menyesuaikan tinggi berdasarkan isi list.
             physics: const NeverScrollableScrollPhysics(), //Menonaktifkan scroll pada ListView bagian dalam.
-            itemCount: hotels.length, 
+            itemCount: recommendedHotels.length, 
             itemBuilder: (context, index){ //itemBuilder = fungsi untuk membuat setiap item. index = nomor urut item, dimulai dari 0.
-              final hotel = hotels[index]; //Mengambil satu data hotel berdasarkan posisi index
+              final hotel = recommendedHotels[index];
               final priceFormat = NumberFormat('#,###', 'id_ID'); //Digunakan untuk mengatur format angka sesuai Indonesia.
               return InkWell(
                 onTap: () {
