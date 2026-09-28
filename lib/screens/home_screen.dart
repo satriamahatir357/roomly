@@ -6,6 +6,7 @@ import '../widgets/hotel_section.dart';
 import 'hotel_detail_screen.dart';
 import 'hotels_screen.dart';
 import 'about_screen.dart';
+import 'booking_history_screen.dart';
 
 // membuat widget halaman Home.
 class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state yang berubah.
@@ -56,6 +57,23 @@ class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state ya
                             color: Colors.white,
                           ),
                         ),
+                    ),
+
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const BookingHistoryScreen(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        'Booking',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
 
                     TextButton(
