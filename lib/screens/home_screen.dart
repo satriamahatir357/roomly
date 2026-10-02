@@ -26,8 +26,10 @@ class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state ya
               foregroundColor: Colors.white, //warna default untuk elemen yang berada di AppBar, seperti icon dan teks, menjadi putih.
               elevation: 0, //mengatur efek bayangan pada widget Material.
 
-                title: const Text(
-                  'Roomly',
+                title: Text(
+                  'Halo, ${userService.currentUser //Mengambil user yang sedang tersimpan di UserService.
+                    ?.name // kalau currentUser tidak null, ambil name. Kalau ternyata currentUser == null, jangan error.
+                    ?? 'User'}', //kalau hasil sebelumnya null, gunakan 'User' sebagai cadangan.
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),  
@@ -283,6 +285,16 @@ class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state ya
                   ),
                   child: const Text('About'),
                 ),
+
+                // Nama user yang sedang login.
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  child: Icon(
+                    Icons.person_outline,
+                    color: Colors.white,
+                  ),
+                ),
+
                 const SizedBox(width: 4),
 
                 TextButton(

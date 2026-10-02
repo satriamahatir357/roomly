@@ -3,6 +3,8 @@ import '../models/user.dart';
 class UserService {
     User? _user;
 
+    User? get currentUser => _user; //menyediakan akses baca ke _user dari luar class, tanpa membolehkan kode luar mengubah _user secara langsung.
+
     void register(User user) { //membuat method bernama register yang menerima object User.
         _user = user;
     }
