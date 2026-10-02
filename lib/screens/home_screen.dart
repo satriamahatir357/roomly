@@ -297,7 +297,7 @@ class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state ya
 
                 const SizedBox(width: 4),
 
-                TextButton(
+                IconButton(
                   onPressed: () {
                     userService.logout();
 
@@ -308,15 +308,11 @@ class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state ya
                       ),
                     );
                   },
-                  style: TextButton.styleFrom(
-                    foregroundColor: const Color(0xFFC9A227),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 8,
-                    ),
-                    overlayColor: Colors.transparent,
+                  tooltip: 'Logout',
+                  icon: const Icon(
+                    Icons.logout,
+                    color: Color(0xFFC9A227),
                   ),
-                  child: const Text('Logout'),
                 ),
               ],
             ),
