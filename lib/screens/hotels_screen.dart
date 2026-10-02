@@ -8,6 +8,7 @@ class HotelsScreen extends StatelessWidget{
 
   @override
   Widget build(BuildContext context){
+    final isMobile = MediaQuery.of(context).size.width < 800;
 
     return Scaffold( //kerangka dasar halaman
     backgroundColor: const Color(0xFFF8F7F3),
@@ -27,8 +28,39 @@ class HotelsScreen extends StatelessWidget{
             padding: const EdgeInsets.all(24),
             itemCount: hotels.length,
             itemBuilder: (context, index) {
-              final hotel = hotels[index]; 
+              final hotel = hotels[index];
               final priceFormat = NumberFormat('#,###', 'id_ID');
+
+              Widget hotelDetails = Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    hotel.getHotelInfo(),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF0F172A),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    hotel.location,
+                    style: const TextStyle(
+                      color: Color(0xFF64748B),
+                      fontSize: 15,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Rp${priceFormat.format(hotel.price)} / malam',
+                    style: const TextStyle(
+                      color: Color(0xFFC9A227),
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              );
 
               return Card(
                 color: Colors.white,
@@ -50,7 +82,8 @@ class HotelsScreen extends StatelessWidget{
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(12),
-                    child: Row(
+                    child: Flex(
+                      direction: isMobile ? Axis.vertical : Axis.horizontal,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // Gambar hotel
@@ -58,47 +91,24 @@ class HotelsScreen extends StatelessWidget{
                           borderRadius: BorderRadius.circular(12),
                           child: Image.network(
                             hotel.imageUrl,
-                            width: 140,
-                            height: 100,
+                            width: isMobile ? double.infinity : 140,
+                            height: isMobile ? 180 : 100, 
                             fit: BoxFit.cover,
                           ),
                         ),
 
-                        const SizedBox(width: 16),
+                        SizedBox(
+                          width: isMobile ? 0 : 16,
+                          height: isMobile ? 16 : 0,
+                        ),
 
                         // Informasi hotel
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                hotel.getHotelInfo(),
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF0F172A),
-                                ),
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                hotel.location,
-                                style: const TextStyle(
-                                  color: Color(0xFF64748B),
-                                  fontSize: 15,
-                                ),
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                'Rp${priceFormat.format(hotel.price)} / malam',
-                                style: const TextStyle(
-                                  color: Color(0xFFC9A227),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
+                        if (isMobile)
+                          hotelDetails
+                        else
+                          Expanded(
+                            child: hotelDetails,
                           ),
-                        ),
 
                         // Rating hotel
                         Row(
