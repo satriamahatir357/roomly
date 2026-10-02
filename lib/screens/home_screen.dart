@@ -7,6 +7,8 @@ import 'hotel_detail_screen.dart';
 import 'hotels_screen.dart';
 import 'about_screen.dart';
 import 'booking_history_screen.dart';
+import '../services/user_service.dart';
+import 'login_screen.dart';
 
 // membuat widget halaman Home.
 class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state yang berubah.
@@ -69,6 +71,17 @@ class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state ya
                             ),
                           );
                           break;
+
+                        case 'logout':
+                          userService.logout();
+
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LoginScreen(),
+                            ),
+                          );
+                          break;
                       }
                     },
 
@@ -88,6 +101,10 @@ class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state ya
                       PopupMenuItem(
                         value: 'about',
                         child: Text('About'),
+                      ),
+                      PopupMenuItem(
+                        value: 'logout',
+                        child: Text('Logout'),
                       ),
                     ],
                   ),
@@ -151,6 +168,20 @@ class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state ya
                   ),
                 ),
                 const SizedBox(width: 16),
+
+                TextButton(
+                  onPressed: () {
+                    userService.logout();
+
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginScreen(),
+                      ),
+                    );
+                  },
+                  child: const Text('Logout'),
+                ),
               ],
             ),
 

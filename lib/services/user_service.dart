@@ -14,6 +14,10 @@ class UserService {
     return _user!.email == email &&
         _user!.password == password;
     }
+
+    void logout(){
+      _user = null; //user yang sedang disimpan oleh UserService.
+    }
 }
 
 final userService = UserService(); //shared UserService dulu supaya Register dan Login memakai penyimpanan user yang sama.
