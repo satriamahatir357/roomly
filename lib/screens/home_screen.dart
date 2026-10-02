@@ -14,6 +14,8 @@ class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state ya
     
     @override
     Widget build(BuildContext context) { //menentukan tampilan widget.
+      final isMobile = MediaQuery.of(context).size.width < 800; //MediaQuery.of(context).size.width : mengambil lebar layar saat ini.
+
         return Scaffold( //kerangka dasar halaman.
           backgroundColor: const Color(0xFFF8F7F3),
 
@@ -30,70 +32,126 @@ class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state ya
                 ),
                 
                 centerTitle: true,
-                actions: [ //daftar widget yang ditampilkan di sisi kanan AppBar
-                    TextButton(
-                        onPressed: () {}, //tombol sudah bisa ditekan, tetapi belum melakukan apa-apa
-                        child: const Text(
-                          'Home',
-                          style: TextStyle(
-                            color: Color(0xFFC9A227),
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                actions: isMobile ?[
+                  PopupMenuButton<String>(
+                    icon: const Icon(
+                      Icons.menu,
+                      color: Colors.white,
                     ),
+                    onSelected: (value){
+                      switch(value){
+                        case 'home':
+                          break;
 
-                    TextButton(
-                        onPressed: () {
-                          Navigator.push( //kita meminta Flutter membuka halaman baru di atas halaman sekarang.
+                        case 'hotels':
+                          Navigator.push(
                             context,
-                            MaterialPageRoute( //menentukan halaman baru yang mau dibuka, yaitu HotelsScreen.
+                            MaterialPageRoute(
                               builder: (context) => const HotelsScreen(),
                             ),
                           );
-                        },
-                        child: const Text(
-                          'Hotels',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                    ),
+                          break;
 
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const BookingHistoryScreen(),
-                          ),
-                        );
-                      },
-                      child: const Text(
-                        'Booking',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-
-                    TextButton(
-                        onPressed: () {
+                        case 'booking':
                           Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const AboutScreen(),
-                          ),
-                        );
-                        },
-                        child: const Text(
-                          'About',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const BookingHistoryScreen(),
+                            ),
+                          );
+                          break;
+                        
+                        case 'about':
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const AboutScreen(),
+                            ),
+                          );
+                          break;
+                      }
+                    },
+
+                    itemBuilder: (context) => const [
+                      PopupMenuItem(
+                        value: 'home',
+                        child: Text('Home'),
+                      ),
+                      PopupMenuItem(
+                        value: 'hotels',
+                        child: Text('Hotels'),
+                      ),
+                      PopupMenuItem(
+                        value: 'booking',
+                        child: Text('Booking'),
+                      ),
+                      PopupMenuItem(
+                        value: 'about',
+                        child: Text('About'),
+                      ),
+                    ],
+                  ),
+                ]
+              : [
+                // tombol navigasi untuk versi desktop.
+                TextButton(
+                  onPressed: (){},
+                  child: const Text(
+                    'Home',
+                    style: TextStyle(
+                      color: Color(0xFFC9A227),
                     ),
-                    const SizedBox(width: 16,), //untuk memberikan ukuran atau jarak
-                ],
+                  ),
+                ),
+
+                TextButton(
+                  onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HotelsScreen(),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'Hotels',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const BookingHistoryScreen(),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'Booking',
+                     style: TextStyle(color: Colors.white),
+                  ),
+                ),
+
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AboutScreen(),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'About',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                const SizedBox(width: 16),
+              ],
             ),
 
             body: SingleChildScrollView(
