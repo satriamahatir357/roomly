@@ -9,6 +9,7 @@ import 'about_screen.dart';
 import 'booking_history_screen.dart';
 import '../services/user_service.dart';
 import 'login_screen.dart';
+import 'wishlist_screen.dart';
 
 // membuat widget halaman Home.
 class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state yang berubah.
@@ -68,6 +69,15 @@ class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state ya
                             context,
                             MaterialPageRoute(
                               builder: (context) => const BookingHistoryScreen(),
+                            ),
+                          );
+                          break;
+
+                        case 'wishlist':
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const WishlistScreen(),
                             ),
                           );
                           break;
@@ -149,6 +159,25 @@ class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state ya
                               style: TextStyle(
                                 color: Color(0xFF0F172A),
                                 fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const PopupMenuItem<String>(
+                        value: 'wishlist',
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.favorite_border,
+                              color: Color(0xFF0F172A),
+                            ),
+                            SizedBox(width: 12),
+                            Text(
+                              'Wishlist',
+                              style: TextStyle(
+                                color: Color(0xFF0F172A),
                               ),
                             ),
                           ],
@@ -264,6 +293,23 @@ class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state ya
                     overlayColor: Colors.transparent,
                   ),
                   child: const Text('Booking'),
+                ),
+
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const WishlistScreen(),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'Wishlist',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
 
                 TextButton(

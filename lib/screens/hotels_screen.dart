@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../data/hotel_data.dart';
 import 'hotel_detail_screen.dart';
 import 'package:intl/intl.dart';
+import '../services/wishlist_service.dart';
+import '../models/hotel.dart';
 
 class HotelsScreen extends StatefulWidget {
   const HotelsScreen({super.key});
@@ -14,6 +16,10 @@ class _HotelsScreenState extends State<HotelsScreen> {
   String searchQuery = '';
   double? maxPrice; //harga hotel kita menggunakan angka desimal
   String sortOption = 'rating'; //sortOption → nama variabel untuk menyimpan pilihan sorting.
+
+  bool isFavorite(Hotel hotel) {
+    return wishlistService.wishlist.contains(hotel); //mengecek apakah hotel tersebut ada di dalam list Wishlist.
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -316,6 +322,25 @@ class _HotelsScreenState extends State<HotelsScreen> {
                                 Expanded(
                                   child: hotelDetails,
                                 ),
+
+                              // Tombol Wishlist
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    if (isFavorite(hotel)) {
+                                      wishlistService.removeFromWishlist(hotel);
+                                    } else {
+                                      wishlistService.addToWishlist(hotel);
+                                    }
+                                  });
+                                },
+                                icon: Icon(
+                                  isFavorite(hotel)
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
+                                  color: const Color(0xFFC9A227),
+                                ),
+                              ),
 
                               // Rating hotel
                               Row(
