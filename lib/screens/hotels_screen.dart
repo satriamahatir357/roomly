@@ -12,14 +12,21 @@ class HotelsScreen extends StatefulWidget {
 
 class _HotelsScreenState extends State<HotelsScreen> {
   String searchQuery = '';
+  double? maxPrice; //harga hotel kita menggunakan angka desimal
 
   @override
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 800;
     
     final filteredHotels = hotels.where((hotel) { //Ambil hotel yang memenuhi kondisi tertentu.
-      return hotel.name.toLowerCase().contains(searchQuery.toLowerCase()) || //Mencari berdasarkan nama hotel.
-          hotel.location.toLowerCase().contains(searchQuery.toLowerCase()); //Mencari berdasarkan lokasi hotel.
+      final matchesSearch = //menyimpan hasil pengecekan Search Bar.
+          hotel.name.toLowerCase().contains(searchQuery.toLowerCase()) ||
+          hotel.location.toLowerCase().contains(searchQuery.toLowerCase());
+
+      final matchesPrice = //Apakah harga hotel lebih kecil atau sama dengan batas harga?
+          maxPrice == null || hotel.price <= maxPrice!;
+
+      return matchesSearch && matchesPrice;
     }).toList();
 
     return Scaffold( //kerangka dasar halaman
@@ -73,6 +80,73 @@ class _HotelsScreenState extends State<HotelsScreen> {
                     color: Color(0xFFC9A227),
                     width: 1.5,
                   ),
+                ),
+              ),
+            ),
+          ),
+
+          Align( //digunakan untuk mengatur posisi child.
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(24, 0, 24, 12),
+              child: SizedBox(
+                width: isMobile ? 220 : 280, //Kalau isMobile benar, gunakan 220. Kalau tidak, gunakan 280
+                child: DropdownButtonFormField<double?>(
+                  initialValue: maxPrice,
+
+                  decoration: InputDecoration(
+                    // Icon filter
+                    prefixIcon: const Icon(
+                      Icons.filter_list,
+                      color: Color(0xFFC9A227),
+                    ),
+
+                    // Background
+                    filled: true,
+                    fillColor: Colors.white,
+
+                    // Border normal
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(
+                        color: Color(0xFFE2E8F0),
+                      ),
+                    ),
+
+                    // Border saat digunakan
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(
+                        color: Color(0xFFC9A227),
+                        width: 1.5,
+                      ),
+                    ),
+                  ),
+
+                  items: const [
+                    DropdownMenuItem<double?>(
+                      value: null,
+                      child: Text('Semua Harga'),
+                    ),
+                    DropdownMenuItem<double?>(
+                      value: 700000,
+                      child: Text('≤ Rp700 rb'),
+                    ),
+                    DropdownMenuItem<double?>(
+                      value: 1000000,
+                      child: Text('≤ Rp1 jt'),
+                    ),
+                    DropdownMenuItem<double?>(
+                      value: 1500000,
+                      child: Text('≤ Rp1,5 jt'),
+                    ),
+                  ],
+
+                  onChanged: (value) {
+                    setState(() {
+                      maxPrice = value;
+                    });
+                  },
                 ),
               ),
             ),

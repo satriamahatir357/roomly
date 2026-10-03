@@ -16,7 +16,10 @@ class BookingSummaryScreen extends StatelessWidget{
     final priceFormat = NumberFormat('#,###', 'id_ID');
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBar( //membuat navbar bagian atas khusus halaman Hotels.
+        backgroundColor: const Color(0xFF0F172A),
+        foregroundColor: Colors.white,
+        elevation: 0, //menghilangkan bayangan default
         title: const Text('Ringkasan Booking'),
       ),
       body: Container(
