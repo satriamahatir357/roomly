@@ -13,6 +13,7 @@ class HotelsScreen extends StatefulWidget {
 class _HotelsScreenState extends State<HotelsScreen> {
   String searchQuery = '';
   double? maxPrice; //harga hotel kita menggunakan angka desimal
+  String sortOption = 'rating'; //sortOption → nama variabel untuk menyimpan pilihan sorting.
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +29,20 @@ class _HotelsScreenState extends State<HotelsScreen> {
 
       return matchesSearch && matchesPrice;
     }).toList();
+
+    if (sortOption == 'rating') { //sortOption adalah state yang menyimpan pilihan sorting user, sedangkan if / else if adalah logika yang menentukan bagaimana list tersebut diurutkan.
+      filteredHotels.sort((a, b) {
+        return b.rating.compareTo(a.rating);
+      });
+    } else if (sortOption == 'price_low') {
+      filteredHotels.sort((a, b) {
+        return a.price.compareTo(b.price);
+      });
+    } else if (sortOption == 'price_high') {
+      filteredHotels.sort((a, b) {
+        return b.price.compareTo(a.price);
+      });
+    }
 
     return Scaffold( //kerangka dasar halaman
     backgroundColor: const Color(0xFFF8F7F3),
@@ -85,71 +100,128 @@ class _HotelsScreenState extends State<HotelsScreen> {
             ),
           ),
 
-          Align( //digunakan untuk mengatur posisi child.
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(24, 0, 24, 12),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(24, 0, 24, 12),
               child: SizedBox(
-                width: isMobile ? 220 : 280, //Kalau isMobile benar, gunakan 220. Kalau tidak, gunakan 280
-                child: DropdownButtonFormField<double?>(
-                  initialValue: maxPrice,
+                width: double.infinity,
+                child: Wrap(
+                  alignment: WrapAlignment.start,
+                  spacing: 16,
+                  runSpacing: 12,
+                  children: [
+                    // Filter Harga
+                    SizedBox(
+                      width: isMobile ? 220 : 280,
+                      child: DropdownButtonFormField<double?>(
+                        initialValue: maxPrice,
 
-                  decoration: InputDecoration(
-                    // Icon filter
-                    prefixIcon: const Icon(
-                      Icons.filter_list,
-                      color: Color(0xFFC9A227),
-                    ),
+                        decoration: InputDecoration(
+                          // Icon filter
+                          prefixIcon: const Icon(
+                            Icons.filter_list,
+                            color: Color(0xFFC9A227),
+                          ),
 
-                    // Background
-                    filled: true,
-                    fillColor: Colors.white,
+                          // Background
+                          filled: true,
+                          fillColor: Colors.white,
 
-                    // Border normal
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(14),
-                      borderSide: const BorderSide(
-                        color: Color(0xFFE2E8F0),
+                          // Border normal
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: const BorderSide(
+                              color: Color(0xFFE2E8F0),
+                            ),
+                          ),
+
+                          // Border saat digunakan
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: const BorderSide(
+                              color: Color(0xFFC9A227),
+                              width: 1.5,
+                            ),
+                          ),
+                        ),
+
+                        items: const [
+                          DropdownMenuItem<double?>(
+                            value: null,
+                            child: Text('Semua Harga'),
+                          ),
+                          DropdownMenuItem<double?>(
+                            value: 700000,
+                            child: Text('≤ Rp700 rb'),
+                          ),
+                          DropdownMenuItem<double?>(
+                            value: 1000000,
+                            child: Text('≤ Rp1 jt'),
+                          ),
+                          DropdownMenuItem<double?>(
+                            value: 1500000,
+                            child: Text('≤ Rp1,5 jt'),
+                          ),
+                        ],
+
+                        onChanged: (value) {
+                          setState(() {
+                            maxPrice = value;
+                          });
+                        },
                       ),
                     ),
 
-                    // Border saat digunakan
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(14),
-                      borderSide: const BorderSide(
-                        color: Color(0xFFC9A227),
-                        width: 1.5,
-                      ),
-                    ),
-                  ),
+                    // Sorting
+                    SizedBox(
+                      width: isMobile ? 220 : 280,
+                      child: DropdownButtonFormField<String>(
+                        initialValue: sortOption,
 
-                  items: const [
-                    DropdownMenuItem<double?>(
-                      value: null,
-                      child: Text('Semua Harga'),
-                    ),
-                    DropdownMenuItem<double?>(
-                      value: 700000,
-                      child: Text('≤ Rp700 rb'),
-                    ),
-                    DropdownMenuItem<double?>(
-                      value: 1000000,
-                      child: Text('≤ Rp1 jt'),
-                    ),
-                    DropdownMenuItem<double?>(
-                      value: 1500000,
-                      child: Text('≤ Rp1,5 jt'),
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(
+                            Icons.sort,
+                            color: Color(0xFFC9A227),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: const BorderSide(
+                              color: Color(0xFFE2E8F0),
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: const BorderSide(
+                              color: Color(0xFFC9A227),
+                              width: 1.5,
+                            ),
+                          ),
+                        ),
+                        items: const [
+                          DropdownMenuItem<String>(
+                            value: 'rating',
+                            child: Text('Rating Tertinggi'),
+                          ),
+                          DropdownMenuItem<String>(
+                            value: 'price_low',
+                            child: Text('Harga Termurah'),
+                          ),
+                          DropdownMenuItem<String>(
+                            value: 'price_high',
+                            child: Text('Harga Termahal'),
+                          ),
+                        ],
+                        onChanged: (value) {
+                          setState(() {
+                            sortOption = value!;
+                          });
+                        },
+                      ),
                     ),
                   ],
-
-                  onChanged: (value) {
-                    setState(() {
-                      maxPrice = value;
-                    });
-                  },
                 ),
               ),
-            ),
           ),
 
           // Daftar hotel
