@@ -100,17 +100,6 @@ class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state ya
                             ),
                           );
                           break;
-
-                        case 'logout':
-                          userService.logout();
-
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const LoginScreen(),
-                            ),
-                          );
-                          break;
                       }
                     },
 
@@ -227,26 +216,6 @@ class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state ya
                               'Profil',
                               style: TextStyle(
                                 color: Color(0xFF0F172A),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      PopupMenuItem(
-                        value: 'logout',
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.logout,
-                              color: Color(0xFFC9A227),
-                            ),
-                            SizedBox(width: 12),
-                            Text(
-                              'Logout',
-                              style: TextStyle(
-                                color: Color(0xFFC9A227),
-                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ],
@@ -379,24 +348,6 @@ class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state ya
                 ),
 
                 const SizedBox(width: 4),
-
-                IconButton(
-                  onPressed: () {
-                    userService.logout();
-
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LoginScreen(),
-                      ),
-                    );
-                  },
-                  tooltip: 'Logout',
-                  icon: const Icon(
-                    Icons.logout,
-                    color: Color(0xFFC9A227),
-                  ),
-                ),
               ],
             ),
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/user_service.dart';
+import 'login_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -22,48 +23,170 @@ class ProfileScreen extends StatelessWidget {
       ),
 
       body: Center(
-        child: Card(
-          color: Colors.white,
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(32),
-            child: Column(
-              mainAxisSize: MainAxisSize.min, // Mengatur ukuran kolom agar sesuai dengan kontennya.
-              children: [
-                const CircleAvatar( // menampilkan avatar pengguna.
-                  radius: 45,
-                  backgroundColor: Color(0xFF0F172A),
-                  child: Icon(
-                    Icons.person,
-                    size: 50,
-                    color: Color(0xFFC9A227),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: 500,
+            ),
+            child: Card(
+              color: Colors.white,
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
+              ),
+              clipBehavior: Clip.antiAlias,
+              child: Column(
+                children: [
+                  // Header
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(vertical: 28),
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF0F172A),
+                    ),
+                    child: const CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Color(0xFFC9A227),
+                      child: Icon(
+                        Icons.person,
+                        size: 55,
+                        color: Color(0xFF0F172A),
+                      ),
+                    ),
                   ),
-                ),
 
-                const SizedBox(height: 20),
+                  // Isi Profil
+                  Padding(
+                    padding: const EdgeInsets.all(32),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 20),
 
-                Text(
-                  userService.currentUser?.name ?? 'User', //userService.currentUser?.name menampilkan nama pengguna yang sedang login. Jika tidak ada nama pengguna, maka akan menampilkan 'User'.
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF0F172A),
+                        // Nama user
+                        Text(
+                          userService.currentUser?.name ?? 'User',
+                          style: const TextStyle(
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF0F172A),
+                          ),
+                        ),
+
+                        const SizedBox(height: 6),
+
+                        // Email user
+                        Text(
+                          userService.currentUser?.email ?? '-',
+                          style: const TextStyle(
+                            fontSize: 15,
+                            color: Color(0xFF64748B),
+                          ),
+                        ),
+
+                        const SizedBox(height: 32),
+
+                        // Garis pemisah
+                        const Divider(
+                          color: Color(0xFFE2E8F0),
+                        ),
+
+                        const SizedBox(height: 24),
+
+                        // Informasi akun
+                        const Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Informasi Akun',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF0F172A),
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 16),
+
+                        // Nama
+                        ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: const Icon(
+                            Icons.person_outline,
+                            color: Color(0xFFC9A227),
+                          ),
+                          title: const Text(
+                            'Nama',
+                            style: TextStyle(
+                              color: Color(0xFF64748B),
+                              fontSize: 13,
+                            ),
+                          ),
+                          subtitle: Text(
+                            userService.currentUser?.name ?? '-',
+                            style: const TextStyle(
+                              color: Color(0xFF0F172A),
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+
+                        // Email
+                        ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: const Icon(
+                            Icons.email_outlined,
+                            color: Color(0xFFC9A227),
+                          ),
+                          title: const Text(
+                            'Email',
+                            style: TextStyle(
+                              color: Color(0xFF64748B),
+                              fontSize: 13,
+                            ),
+                          ),
+                          subtitle: Text(
+                            userService.currentUser?.email ?? '-',
+                            style: const TextStyle(
+                              color: Color(0xFF0F172A),
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 24),
+
+                        // Tombol Logout
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              userService.logout();
+
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const LoginScreen(),
+                                ),
+                              );
+                            },
+                            icon: const Icon(Icons.logout),
+                            label: const Text('Logout'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF0F172A),
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(14),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-
-                const SizedBox(height: 8),
-
-                Text(
-                  userService.currentUser?.email ?? '-', // menampilkan email pengguna.
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Color(0xFF64748B),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
