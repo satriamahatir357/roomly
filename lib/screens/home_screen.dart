@@ -10,6 +10,7 @@ import 'booking_history_screen.dart';
 import '../services/user_service.dart';
 import 'login_screen.dart';
 import 'wishlist_screen.dart';
+import 'profile_screen.dart';
 
 // membuat widget halaman Home.
 class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state yang berubah.
@@ -82,6 +83,15 @@ class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state ya
                           );
                           break;
                         
+                        case 'profile':
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ProfileScreen(),
+                            ),
+                          );
+                          break;
+
                         case 'about':
                           Navigator.push(
                             context,
@@ -165,7 +175,7 @@ class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state ya
                         ),
                       ),
 
-                      const PopupMenuItem<String>(
+                      PopupMenuItem<String>(
                         value: 'wishlist',
                         child: Row(
                           children: [
@@ -198,6 +208,25 @@ class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state ya
                               style: TextStyle(
                                 color: Color(0xFF0F172A),
                                 fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      PopupMenuItem<String>(
+                        value: 'profile',
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.person_outline,
+                              color: Color(0xFF0F172A),
+                            ),
+                            SizedBox(width: 12),
+                            Text(
+                              'Profil',
+                              style: TextStyle(
+                                color: Color(0xFF0F172A),
                               ),
                             ),
                           ],
@@ -333,9 +362,17 @@ class HomeScreen extends StatelessWidget { //widget yang tidak memiliki state ya
                 ),
 
                 // Nama user yang sedang login.
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
-                  child: Icon(
+                IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ProfileScreen(),
+                      ),
+                    );
+                  },
+                  tooltip: 'Profil',
+                  icon: const Icon(
                     Icons.person_outline,
                     color: Colors.white,
                   ),
