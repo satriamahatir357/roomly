@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/wishlist_service.dart';
 import 'hotel_detail_screen.dart';
+import 'package:intl/intl.dart';
 
 class WishlistScreen extends StatefulWidget {
   const WishlistScreen({super.key});
@@ -66,6 +67,8 @@ class _WishlistScreenState extends State<WishlistScreen> {
             itemBuilder: (context, index) {
               final hotel = wishlistService.wishlist[index];
 
+              final isMobile = MediaQuery.of(context).size.width < 800;
+
             return InkWell(
               onTap: () {
                 Navigator.push(
@@ -94,13 +97,15 @@ class _WishlistScreenState extends State<WishlistScreen> {
                         borderRadius: BorderRadius.circular(12),
                         child: Image.network(
                           hotel.imageUrl,
-                          width: 140,
-                          height: 100,
+                          width: isMobile ? 100 : 140,
+                          height: isMobile ? 90 : 100,
                           fit: BoxFit.cover,
                         ),
                       ),
 
-                      const SizedBox(width: 16),
+                      SizedBox(
+                        width: isMobile ? 12 : 16,
+                      ),
 
                       // Informasi hotel
                       Expanded(
@@ -109,10 +114,10 @@ class _WishlistScreenState extends State<WishlistScreen> {
                           children: [
                             Text(
                               hotel.name,
-                              style: const TextStyle(
-                                fontSize: 18,
+                              style: TextStyle(
+                                fontSize: isMobile ? 16 : 18,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xFF0F172A),
+                                color: const Color(0xFF0F172A),
                               ),
                             ),
 
@@ -128,7 +133,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                             const SizedBox(height: 8),
 
                             Text(
-                              'Rp${hotel.price.toStringAsFixed(0)} / malam',
+                              'Rp${NumberFormat('#,###', 'id_ID').format(hotel.price)} / malam',
                               style: const TextStyle(
                                 color: Color(0xFFC9A227),
                                 fontWeight: FontWeight.bold,

@@ -117,7 +117,9 @@ class _HotelsScreenState extends State<HotelsScreen> {
                   children: [
                     // Filter Harga
                     SizedBox(
-                      width: isMobile ? 220 : 280,
+                      width: isMobile
+                          ? (MediaQuery.of(context).size.width - 64) / 2 //Jika layar lebih kecil dari 800px, maka lebar DropdownButtonFormField akan menyesuaikan dengan lebar layar dikurangi padding kiri dan kanan (24 + 24 = 48) dibagi 2. Sehingga akan ada dua dropdown di satu baris.
+                          : 280,
                       child: DropdownButtonFormField<double?>(
                         initialValue: maxPrice,
 
@@ -179,7 +181,9 @@ class _HotelsScreenState extends State<HotelsScreen> {
 
                     // Sorting
                     SizedBox(
-                      width: isMobile ? 220 : 280,
+                      width: isMobile
+                          ? (MediaQuery.of(context).size.width - 64) / 2
+                          : 280,
                       child: DropdownButtonFormField<String>(
                         initialValue: sortOption,
 
