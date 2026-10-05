@@ -121,6 +121,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
                           ? (MediaQuery.of(context).size.width - 64) / 2 //Jika layar lebih kecil dari 800px, maka lebar DropdownButtonFormField akan menyesuaikan dengan lebar layar dikurangi padding kiri dan kanan (24 + 24 = 48) dibagi 2. Sehingga akan ada dua dropdown di satu baris.
                           : 280,
                       child: DropdownButtonFormField<double?>(
+                        isExpanded: true, //isExpanded digunakan agar DropdownButtonFormField menyesuaikan lebar dengan parent widget-nya (SizedBox). Jika tidak menggunakan isExpanded, maka DropdownButtonFormField akan memiliki lebar default yang mungkin tidak sesuai dengan desain.
                         initialValue: maxPrice,
 
                         decoration: InputDecoration(
@@ -185,6 +186,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
                           ? (MediaQuery.of(context).size.width - 64) / 2
                           : 280,
                       child: DropdownButtonFormField<String>(
+                        isExpanded: true, //isExpanded digunakan agar DropdownButtonFormField menyesuaikan lebar dengan parent widget-nya (SizedBox). Jika tidak menggunakan isExpanded, maka DropdownButtonFormField akan memiliki lebar default yang mungkin tidak sesuai dengan desain.
                         initialValue: sortOption,
 
                         decoration: InputDecoration(
