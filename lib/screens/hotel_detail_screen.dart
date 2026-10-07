@@ -378,15 +378,12 @@ class HotelDetailScreen extends StatefulWidget{ //StatelessWidget cocok kalau ta
                               ),
                             );
 
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Ulasan berhasil ditambahkan!'),
-                              ),
-                            );
+                            if (!mounted) return;//mounted adalah property dari State yang menunjukkan apakah State masih terpasang di widget tree. Jika tidak, kita tidak boleh memanggil setState() karena akan menyebabkan error.
+
+                            _reviewController.clear(); //membersihkan isi TextField
 
                             setState(() {
-                              _selectedRating = 0;
-                              _reviewController.clear();
+                              _selectedRating = 0; //memberi tahu Flutter bahwa rating berubah, sehingga bintang digambar ulang.
                             });
                           },
                           style: ElevatedButton.styleFrom(
