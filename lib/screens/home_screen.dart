@@ -3,12 +3,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart'; //mengambil library Flutter.
 import '../widgets/hero_section.dart';
 import '../widgets/hotel_section.dart';
-import 'hotel_detail_screen.dart';
 import 'hotels_screen.dart';
 import 'about_screen.dart';
 import 'booking_history_screen.dart';
 import '../services/user_service.dart';
-import 'login_screen.dart';
 import 'wishlist_screen.dart';
 import 'profile_screen.dart';
 

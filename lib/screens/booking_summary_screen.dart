@@ -105,52 +105,13 @@ class BookingSummaryScreen extends StatelessWidget{
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const Icon(
-                                    Icons.person_outline,
-                                    color: Color(0xFFC9A227),
-                                    size: 24,
-                                  ),
-                                  const SizedBox(height: 12),
-                                  const Text(
-                                    'Nama Tamu',
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      color: Color(0xFF64748B),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    booking.guestName,
-                                    style: const TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xFF0F172A),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-
-                          const SizedBox(width: 16),
-
-                          Expanded(
-                            child: Container(
-                              padding: const EdgeInsets.all(16),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFF1EFE8),
-                                borderRadius: BorderRadius.circular(14),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Icon(
                                     Icons.nights_stay_outlined,
                                     color: Color(0xFFC9A227),
                                     size: 24,
                                   ),
                                   const SizedBox(height: 12),
                                   const Text(
-                                    'Jumlah Malam',
+                                    'Jadwal Menginap',
                                     style: TextStyle(
                                       fontSize: 13,
                                       color: Color(0xFF64748B),
@@ -161,6 +122,42 @@ class BookingSummaryScreen extends StatelessWidget{
                                     '${booking.numberOfNights} malam',
                                     style: const TextStyle(
                                       fontSize: 17,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(0xFF0F172A),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 12),
+                                  const Text(
+                                    'Check-in',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xFF64748B),
+                                    ),
+                                  ),
+                                  Text(
+                                    '${booking.checkInDate.day.toString().padLeft(2, '0')}/' //day mengambil hari, .toString() mengubah angka menjadi teks, dan .padLeft(2, '0') menambahkan nol di depan jika angka hari hanya satu digit.
+                                    '${booking.checkInDate.month.toString().padLeft(2, '0')}/'
+                                    '${booking.checkInDate.year}',
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(0xFF0F172A),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  const Text(
+                                    'Check-out',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xFF64748B),
+                                    ),
+                                  ),
+                                  Text(
+                                    '${booking.checkOutDate.day.toString().padLeft(2, '0')}/'
+                                    '${booking.checkOutDate.month.toString().padLeft(2, '0')}/'
+                                    '${booking.checkOutDate.year}',
+                                    style: const TextStyle(
+                                      fontSize: 14,
                                       fontWeight: FontWeight.w600,
                                       color: Color(0xFF0F172A),
                                     ),

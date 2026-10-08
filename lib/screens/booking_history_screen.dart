@@ -142,6 +142,45 @@ class BookingHistoryScreen extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
+                        
+                        const SizedBox(height: 16),
+                        Text(
+                          'Check-in',
+                          style: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 14,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          '${booking.checkInDate.day.toString().padLeft(2, '0')}/'
+                          '${booking.checkInDate.month.toString().padLeft(2, '0')}/'
+                          '${booking.checkInDate.year}',
+                          style: const TextStyle(
+                            color: Color(0xFFF8F7F3),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          'Check-out',
+                          style: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 14,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          '${booking.checkOutDate.day.toString().padLeft(2, '0')}/'
+                          '${booking.checkOutDate.month.toString().padLeft(2, '0')}/'
+                          '${booking.checkOutDate.year}',
+                          style: const TextStyle(
+                            color: Color(0xFFF8F7F3),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
 
                         const SizedBox(height: 20),
 
