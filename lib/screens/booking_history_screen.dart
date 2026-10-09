@@ -2,13 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../services/booking_service.dart';
+import '../services/user_service.dart';
 
 class BookingHistoryScreen extends StatelessWidget {
   const BookingHistoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final bookings = bookingService.bookings; //Ambil daftar booking
+    final currentUser = userService.currentUser; //currentUser mengambil akun yang sedang login.
+
+    final bookings = currentUser == null //Jika tidak ada akun yang login, daftar booking menjadi kosong.
+        ? []
+        : bookingService.bookings
+            .where((booking) => booking.userEmail == currentUser.email) //.where(...) menyaring booking berdasarkan email pemiliknya.
+            .toList(); //.toList() mengubah hasil penyaringan menjadi daftar yang bisa digunakan oleh ListView.builder.
     final currencyFormat = NumberFormat('#,###', 'id_ID');
 
     return Scaffold(

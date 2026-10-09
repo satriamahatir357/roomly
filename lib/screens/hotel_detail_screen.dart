@@ -571,6 +571,7 @@ class HotelDetailScreen extends StatefulWidget{ //StatelessWidget cocok kalau ta
 
                             final booking = Booking(
                               bookingId: Booking.generateBookingId(),
+                              userEmail: userService.currentUser!.email,
                               guestName: _guestNameController.text.trim(),
                               hotel: widget.hotel,
                               numberOfNights: _numberOfNights,

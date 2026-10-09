@@ -2,6 +2,7 @@ import 'hotel.dart';
 
 class Booking {
   String _bookingId;
+  String _userEmail;
   String _guestName;
   Hotel _hotel;
   int _numberOfNights;
@@ -11,12 +12,14 @@ class Booking {
   // Constructor
   Booking({
     required String bookingId,
+    required String userEmail,
     required String guestName,
     required Hotel hotel,
     required int numberOfNights,
     required DateTime checkInDate,
     required DateTime checkOutDate,
   })  : _bookingId = bookingId, //menyimpan ID booking
+        _userEmail = userEmail, // Menyimpan email pemilik booking
         _guestName = guestName,
         _hotel = hotel,
         _numberOfNights = numberOfNights,
@@ -25,6 +28,7 @@ class Booking {
   
       // Getter
         String get bookingId => _bookingId;
+        String get userEmail => _userEmail;
         String get guestName => _guestName;
         Hotel get hotel => _hotel;
         int get numberOfNights => _numberOfNights;
